@@ -175,7 +175,13 @@ class Discord extends Base implements NotificationInterface
             $title = $this->notificationModel->getTitleWithAuthor($author, $eventName, $eventData);
             if (isset($user['avatar_path'])) {
                 $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
-                $avatar_extension = strtolower(pathinfo($avatar_path, PATHINFO_EXTENSION));
+
+                if (exif_imagetype($avatar_path == IMAGETYPE_JPEG)) {
+                    $avatar_extension = 'jpeg';
+                } elseif (exif_imagetype($avatar_path == IMAGETYPE_PNG)) {
+                    $avatar_extension = 'png';
+                } else $avatar_extension = 'png';
+
                 $avatar_file = array(
                     "name" => "file",
                     "filename" => "avatar.{$avatar_extension}",
