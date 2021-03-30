@@ -249,13 +249,6 @@ class Discord extends Base implements NotificationInterface
         //     'text' => $author,
         //     'icon_url' => 'attachment://avatar.png',
         // ];
-        if (isset($fileInfo["attachment"])) {
-            if (str_contains($fileInfo['attachment']['type'], "image")) {
-                $embedImage = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
-            } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
-                $embedVideo = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
-            }
-        }
         $embedAuthor = [
             'name' => $author,
             #'url' => 'https://kanboard.org',
@@ -269,8 +262,6 @@ class Discord extends Base implements NotificationInterface
             'timestamp' => $embedTimestamp,
             'color' => $embedColor,
             #'footer' => $embedFooter,
-            'image' => $embedImage,
-            'video' => $embedVideo,
             'author' => $embedAuthor,
             // 'fields' => [
             //     [
@@ -280,6 +271,16 @@ class Discord extends Base implements NotificationInterface
             //     ],
             // ] ,
         ));
+
+        if (isset($fileInfo["attachment"])) {
+            if (str_contains($fileInfo['attachment']['type'], "image")) {
+                $embedImage = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
+                $embed["image"] = $embedImage;
+            } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
+                $embedVideo = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
+                $embed["video"] = $embedVideo;
+            }
+        }
 
         $payload = [
             'username' => 'Kanboard',
