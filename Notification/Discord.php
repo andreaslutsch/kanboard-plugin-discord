@@ -227,13 +227,11 @@ class Discord extends Base implements NotificationInterface
         {
             $file_path = getcwd() . "/data/files/" . $eventData['file']['path'];
             $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
-
             $file_mime = mime_content_type($file_path);
-
 
             $attachment_file = array(
                 "name" => "file2",
-                "filename" => "attachment.{$file_extension}",
+                "filename" => $eventData['file']['name'],
                 "type" => $file_mime,
                 "data" => file_get_contents($file_path),
             );
