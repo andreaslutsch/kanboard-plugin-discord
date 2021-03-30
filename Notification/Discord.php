@@ -12,7 +12,7 @@ use Kanboard\Model\TaskFileModel;
 use ReflectionClass;
 use ReflectionException;
 
-require_once dirname(__FILE__) . '/' . '../php-discord-sdk/support/sdk_discord.php';
+require_once dirname(__FILE__).'/../php-discord-sdk/support/sdk_discord.php';
 
 // Helper functions
 
