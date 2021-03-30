@@ -230,15 +230,14 @@ class Discord extends Base implements NotificationInterface
 
             $file_mime = mime_content_type($file_path);
 
-            if (!empty($file_type)) {
-                $attachment_file = array(
-                    "name" => "file2",
-                    "filename" => "attachment.{$file_extension}",
-                    "type" => $file_mime,
-                    "data" => file_get_contents($file_path),
-                );
+            $attachment_file = array(
+                "name" => "file2",
+                "filename" => "attachment.{$file_extension}",
+                "type" => $file_mime,
+                "data" => file_get_contents($file_path),
+            );
 
-                $fileInfo["attachment"] = $attachment_file;
+            $fileInfo["attachment"] = $attachment_file;
             }
         }
 
