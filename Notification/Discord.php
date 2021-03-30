@@ -230,6 +230,7 @@ class Discord extends Base implements NotificationInterface
 
             $file_mime = mime_content_type($file_path);
 
+
             $attachment_file = array(
                 "name" => "file2",
                 "filename" => "attachment.{$file_extension}",
@@ -238,7 +239,6 @@ class Discord extends Base implements NotificationInterface
             );
 
             $fileInfo["attachment"] = $attachment_file;
-            }
         }
 
         // Create embed object
@@ -252,10 +252,12 @@ class Discord extends Base implements NotificationInterface
         //     'text' => $author,
         //     'icon_url' => 'attachment://avatar.png',
         // ];
-        if (str_contains($fileInfo['attachment']['type'], "image")) {
-            $embedImage = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
-        } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
-            $embedVideo = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
+        if (isset($fileInfo["attachment"])) {
+            if (str_contains($fileInfo['attachment']['type'], "image")) {
+                $embedImage = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
+            } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
+                $embedVideo = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
+            }
         }
         $embedAuthor = [
             'name' => $author,
