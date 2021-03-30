@@ -176,16 +176,12 @@ class Discord extends Base implements NotificationInterface
             if (isset($user['avatar_path'])) {
                 $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
 
-                if (exif_imagetype($avatar_path == IMAGETYPE_JPEG)) {
-                    $avatar_extension = 'jpeg';
-                } elseif (exif_imagetype($avatar_path == IMAGETYPE_PNG)) {
-                    $avatar_extension = 'png';
-                } else $avatar_extension = 'png';
+                $avatar_mime = mime_content_type($avatar_path);
 
                 $avatar_file = array(
                     "name" => "file",
-                    "filename" => "avatar.{$avatar_extension}",
-                    "type" => "image/{$avatar_extension}",
+                    "filename" => "avatar.png",
+                    "type" => $avatar_mime,
                     "data" => file_get_contents($avatar_path),
                 );
                 $fileinfo["avatar"] = $avatar_file;
