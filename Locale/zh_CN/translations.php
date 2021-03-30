@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'Help on Slack integration' => 'Slack 整合帮助',
+    'Help on Discord integration' => 'Discord 整合帮助',
     // 'Channel/Group/User (Optional)' => '',
 );
 

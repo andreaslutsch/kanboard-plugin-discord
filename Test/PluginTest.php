@@ -2,7 +2,7 @@
 
 require_once 'tests/units/Base.php';
 
-use Kanboard\Plugin\Slack\Plugin;
+use Kanboard\Plugin\Discord\Plugin;
 
 class PluginTest extends Base
 {

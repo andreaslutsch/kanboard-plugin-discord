@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'Help on Slack integration' => 'Ajuda na integração com o Slack',
+    'Help on Discord integration' => 'Ajuda na integração com o Discord',
     'Channel/Group/User (Optional)' => 'Canal/Grupo/Utilizador (Opcional)',
 );
 

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'Help on Slack integration' => 'Súgó a Slack integráláshoz',
+    'Help on Discord integration' => 'Súgó a Discord integráláshoz',
     'Channel/Group/User (Optional)' => 'Csatorna/csoport/felhasználó (opcionális)',
 );
 

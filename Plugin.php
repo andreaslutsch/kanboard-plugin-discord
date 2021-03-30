@@ -1,12 +1,12 @@
 <?php
 
-namespace Kanboard\Plugin\Slack;
+namespace Kanboard\Plugin\Discord;
 
 use Kanboard\Core\Translator;
 use Kanboard\Core\Plugin\Base;
 
 /**
- * Slack Plugin
+ * Discord Plugin
  *
  * @package  slack
  * @author   Frederic Guillot
@@ -15,12 +15,12 @@ class Plugin extends Base
 {
     public function initialize()
     {
-        $this->template->hook->attach('template:config:integrations', 'slack:config/integration');
-        $this->template->hook->attach('template:project:integrations', 'slack:project/integration');
-        $this->template->hook->attach('template:user:integrations', 'slack:user/integration');
+        $this->template->hook->attach('template:config:integrations', 'discord:config/integration');
+        $this->template->hook->attach('template:project:integrations', 'discord:project/integration');
+        $this->template->hook->attach('template:user:integrations', 'discord:user/integration');
 
-        $this->userNotificationTypeModel->setType('slack', t('Slack'), '\Kanboard\Plugin\Slack\Notification\Slack');
-        $this->projectNotificationTypeModel->setType('slack', t('Slack'), '\Kanboard\Plugin\Slack\Notification\Slack');
+        $this->userNotificationTypeModel->setType('discord', t('Discord'), '\Kanboard\Plugin\Discord\Notification\Discord');
+        $this->projectNotificationTypeModel->setType('discord', t('Discord'), '\Kanboard\Plugin\Discord\Notification\Discord');
     }
 
     public function onStartup()
@@ -30,7 +30,7 @@ class Plugin extends Base
 
     public function getPluginDescription()
     {
-        return 'Receive notifications on Slack';
+        return 'Receive notifications on Discord';
     }
 
     public function getPluginAuthor()
@@ -45,7 +45,7 @@ class Plugin extends Base
 
     public function getPluginHomepage()
     {
-        return 'https://github.com/kanboard/plugin-slack';
+        return 'https://github.com/andreaslutsch/kanboard-plugin-discord';
     }
 
     public function getCompatibleVersion()
