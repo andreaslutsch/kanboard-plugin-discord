@@ -174,14 +174,15 @@ class Discord extends Base implements NotificationInterface
             $title = $this->notificationModel->getTitleWithAuthor($author, $eventName, $eventData);
             if (isset($user['avatar_path'])) {
                 $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
+                $avatar_extension = strtolower(pathinfo($avatar_path, PATHINFO_EXTENSION));
                 $avatar_file = array(
                     "name" => "file",
-                    "filename" => 'avatar.png',
-                    "type" => "image/png",
+                    "filename" => "avatar.{$avatar_extension}",
+                    "type" => "image/{$avatar_extension}",
                     "data" => file_get_contents($avatar_path),
                 );
                 $fileinfo["avatar"] = $avatar_file;
-            }            
+            }
         } else {
             $title = $this->notificationModel->getTitleWithoutAuthor($eventName, $eventData);
         }
@@ -220,17 +221,25 @@ class Discord extends Base implements NotificationInterface
         } elseif ($eventName === TaskFileModel::EVENT_CREATE)  // If attachment available
         {
             $file_path = getcwd() . "/data/files/" . $eventData['file']['path'];
-            $is_image = $eventData['file']['is_image'];
+            $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
 
-            if ($is_image == true) {
-                $image_file = array(
+            if ($file_extension == ('jpg' || 'jpeg' || 'png' || 'gif' || 'gifv')) {
+                $file_type = 'image';
+            } elseif ($file_extension == ('mp4' || 'webm')) {
+                $file_type = 'video';
+            } elseif ($file_extension == ('mp3' || 'wav' || 'ogg')) {
+                $file_type = 'audio';
+            }
+
+            if (isset($file_type)) {
+                $attachment_file = array(
                     "name" => "file2",
-                    "filename" => "image.png",
-                    "type" => "image/png",
+                    "filename" => "attachment.{$file_extension}",
+                    "type" => "{$file_type}/{$file_extension}",
                     "data" => file_get_contents($file_path),
                 );
 
-                $fileinfo["image"] = $image_file;
+                $fileinfo["attachment"] = $attachment_file;
             }
         }
 
@@ -245,7 +254,11 @@ class Discord extends Base implements NotificationInterface
         //     'text' => $author,
         //     'icon_url' => 'attachment://avatar.png',
         // ];
-        $embedImage = ['url' => 'attachment://image.png'];
+        if ($file_type == 'image') {
+            $embedImage = ['url' => "attachment://attachment.{$file_extension}"];
+        } elseif ($file_type == 'video') {
+            $embedVideo = ['url' => "attachment://attachment.{$file_extension}"];
+        }
         $embedAuthor = [
             'name' => $author,
             #'url' => 'https://kanboard.org',
@@ -260,6 +273,7 @@ class Discord extends Base implements NotificationInterface
             'color' => $embedColor,
             #'footer' => $embedFooter,
             'image' => $embedImage,
+            'video' => $embedVideo,
             'author' => $embedAuthor,
             // 'fields' => [
             //     [
