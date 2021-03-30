@@ -166,6 +166,7 @@ class Discord extends Base implements NotificationInterface
     public function getMessage(array $project, $eventName, array $eventData)
     {
         $fileinfo = array();
+        $file_type = '';
 
         // Get user information if logged in
         if ($this->userSession->isLogged()) {
@@ -231,7 +232,7 @@ class Discord extends Base implements NotificationInterface
                 $file_type = 'audio';
             }
 
-            if (isset($file_type)) {
+            if (!empty($file_type)) {
                 $attachment_file = array(
                     "name" => "file2",
                     "filename" => "attachment.{$file_extension}",
