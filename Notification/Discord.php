@@ -226,7 +226,6 @@ class Discord extends Base implements NotificationInterface
         } elseif ($eventName === TaskFileModel::EVENT_CREATE)  // If attachment available
         {
             $file_path = getcwd() . "/data/files/" . $eventData['file']['path'];
-            $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
             $file_mime = mime_content_type($file_path);
 
             $attachment_file = array(
