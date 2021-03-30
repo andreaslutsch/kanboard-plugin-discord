@@ -262,7 +262,7 @@ class Discord extends Base implements NotificationInterface
         $embedAuthor = [
             'name' => $author,
             #'url' => 'https://kanboard.org',
-            'icon_url' => 'attachment://avatar.png',
+            'icon_url' => "attachment://avatar.{$avatar_extension}",
         ];
 
         $embed = array(array(
