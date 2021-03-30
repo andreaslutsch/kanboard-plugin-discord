@@ -2,7 +2,6 @@
 
 namespace Kanboard\Plugin\Discord\Notification;
 
-use CommentModelTest;
 use DiscordSDK;
 use Kanboard\Core\Base;
 use Kanboard\Core\Notification\NotificationInterface;
@@ -13,9 +12,7 @@ use Kanboard\Model\TaskFileModel;
 use ReflectionClass;
 use ReflectionException;
 
-
-require_once '../php-discord-sdk/support/sdk_discord.php';
-
+require_once dirname(__FILE__) . '/' . '../php-discord-sdk/support/sdk_discord.php';
 
 // Helper functions
 
