@@ -278,8 +278,7 @@ class Discord extends Base implements NotificationInterface
                 $embed[0]["image"] = $embedImage;
             } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
                 $embedVideo = ['url' => "attachment://{$fileInfo['attachment']['filename']}"];
-                $embed[1]["type"] = "video";
-                $embed[1]["video"] = $embedVideo;
+                $embed[]["url"] = $embedVideo;
             }
         }
 
