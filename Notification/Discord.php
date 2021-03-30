@@ -12,7 +12,7 @@ use Kanboard\Model\TaskFileModel;
 use ReflectionClass;
 use ReflectionException;
 
-require_once dirname(__FILE__).'/../php-discord-sdk/support/sdk_discord.php';
+require_once dirname(__FILE__) . '/../php-discord-sdk/support/sdk_discord.php';
 
 // Helper functions
 
@@ -176,14 +176,16 @@ class Discord extends Base implements NotificationInterface
             $user = $this->userSession->getAll();
             $author = $this->helper->user->getFullname();
             $title = $this->notificationModel->getTitleWithAuthor($author, $eventName, $eventData);
-            $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
-            $avatar_file = array(
-                "name" => "file",
-                "filename" => 'avatar.png',
-                "type" => "image/png",
-                "data" => file_get_contents($avatar_path),
-            );
-            $fileinfo["avatar"] = $avatar_file;
+            if (isset($user['avatar_path'])) {
+                $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
+                $avatar_file = array(
+                    "name" => "file",
+                    "filename" => 'avatar.png',
+                    "type" => "image/png",
+                    "data" => file_get_contents($avatar_path),
+                );
+                $fileinfo["avatar"] = $avatar_file;
+            }            
         } else {
             $title = $this->notificationModel->getTitleWithoutAuthor($eventName, $eventData);
         }
@@ -244,10 +246,10 @@ class Discord extends Base implements NotificationInterface
         $embedDescription = $message;
         $embedTimestamp = date("c", strtotime("now"));
         $embedColor = hexdec('f9df18');
-        $embedFooter = [
-            'text' => $author,
-            'icon_url' => 'attachment://avatar.png',
-        ];
+        // $embedFooter = [
+        //     'text' => $author,
+        //     'icon_url' => 'attachment://avatar.png',
+        // ];
         $embedThumbnail = ['url' => 'attachment://thumbnail.png'];
         $embedAuthor = [
             'name' => $author,
