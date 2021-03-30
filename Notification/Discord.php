@@ -220,18 +220,17 @@ class Discord extends Base implements NotificationInterface
         } elseif ($eventName === TaskFileModel::EVENT_CREATE)  // If attachment available
         {
             $file_path = getcwd() . "/data/files/" . $eventData['file']['path'];
-            $file_name = $eventData['file']['name'];
             $is_image = $eventData['file']['is_image'];
 
             if ($is_image == true) {
-                $thumbnail_file = array(
+                $image_file = array(
                     "name" => "file2",
-                    "filename" => "thumbnail.png",
+                    "filename" => "image.png",
                     "type" => "image/png",
                     "data" => file_get_contents($file_path),
                 );
 
-                $fileinfo["thumbnail"] = $thumbnail_file;
+                $fileinfo["image"] = $image_file;
             }
         }
 
@@ -246,7 +245,7 @@ class Discord extends Base implements NotificationInterface
         //     'text' => $author,
         //     'icon_url' => 'attachment://avatar.png',
         // ];
-        $embedThumbnail = ['url' => 'attachment://thumbnail.png'];
+        $embedImage = ['url' => 'attachment://image.png'];
         $embedAuthor = [
             'name' => $author,
             #'url' => 'https://kanboard.org',
@@ -260,7 +259,7 @@ class Discord extends Base implements NotificationInterface
             'timestamp' => $embedTimestamp,
             'color' => $embedColor,
             #'footer' => $embedFooter,
-            'thumbnail' => $embedThumbnail,
+            'image' => $embedImage,
             'author' => $embedAuthor,
             // 'fields' => [
             //     [
