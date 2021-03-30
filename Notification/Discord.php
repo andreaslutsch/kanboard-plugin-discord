@@ -228,19 +228,13 @@ class Discord extends Base implements NotificationInterface
             $file_path = getcwd() . "/data/files/" . $eventData['file']['path'];
             $file_extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
 
-            if ($file_extension == ('jpg' || 'jpeg' || 'png' || 'gif' || 'gifv')) {
-                $file_type = 'image';
-            } elseif ($file_extension == ('mp4' || 'webm')) {
-                $file_type = 'video';
-            } elseif ($file_extension == ('mp3' || 'wav' || 'ogg')) {
-                $file_type = 'audio';
-            }
+            $file_mime = mime_content_type($file_path);
 
             if (!empty($file_type)) {
                 $attachment_file = array(
                     "name" => "file2",
                     "filename" => "attachment.{$file_extension}",
-                    "type" => "{$file_type}/{$file_extension}",
+                    "type" => $file_mime,
                     "data" => file_get_contents($file_path),
                 );
 
@@ -259,9 +253,9 @@ class Discord extends Base implements NotificationInterface
         //     'text' => $author,
         //     'icon_url' => 'attachment://avatar.png',
         // ];
-        if ($file_type == 'image') {
+        if (str_contains($fileInfo['attachment']['type'], "image")) {
             $embedImage = ['url' => "attachment://attachment.{$file_extension}"];
-        } elseif ($file_type == 'video') {
+        } elseif (str_contains($fileInfo['attachment']['type'], 'video')) {
             $embedVideo = ['url' => "attachment://attachment.{$file_extension}"];
         }
         $embedAuthor = [
