@@ -165,11 +165,7 @@ class Discord extends Base implements NotificationInterface
      */
     public function getMessage(array $project, $eventName, array $eventData)
     {
-        $fileinfo = array(
-            "avatar" => array(),
-            "thumbnail" => array(),
-        );
-
+        $fileinfo = array();
 
         // Get user information if logged in
         if ($this->userSession->isLogged()) {
