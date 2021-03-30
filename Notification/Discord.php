@@ -165,7 +165,8 @@ class Discord extends Base implements NotificationInterface
      */
     public function getMessage(array $project, $eventName, array $eventData)
     {
-        $fileinfo = array();
+        $fileInfo = array();
+        $avatar_fileType = '';
         $file_type = '';
 
         // Get user information if logged in
@@ -177,6 +178,7 @@ class Discord extends Base implements NotificationInterface
                 $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
 
                 $avatar_mime = mime_content_type($avatar_path);
+                $avatar_fileType = substr($avatar_mime, strpos($avatar_mime, "/") + 1);
 
                 $avatar_file = array(
                     "name" => "file",
@@ -184,7 +186,7 @@ class Discord extends Base implements NotificationInterface
                     "type" => $avatar_mime,
                     "data" => file_get_contents($avatar_path),
                 );
-                $fileinfo["avatar"] = $avatar_file;
+                $fileInfo["avatar"] = $avatar_file;
             }
         } else {
             $title = $this->notificationModel->getTitleWithoutAuthor($eventName, $eventData);
@@ -242,7 +244,7 @@ class Discord extends Base implements NotificationInterface
                     "data" => file_get_contents($file_path),
                 );
 
-                $fileinfo["attachment"] = $attachment_file;
+                $fileInfo["attachment"] = $attachment_file;
             }
         }
 
@@ -265,7 +267,7 @@ class Discord extends Base implements NotificationInterface
         $embedAuthor = [
             'name' => $author,
             #'url' => 'https://kanboard.org',
-            'icon_url' => "attachment://avatar.{$avatar_extension}",
+            'icon_url' => "attachment://avatar.{$avatar_fileType}",
         ];
 
         $embed = array(array(
@@ -295,7 +297,7 @@ class Discord extends Base implements NotificationInterface
 
         $data = [
             "options" => $payload,
-            "fileinfo" => $fileinfo,
+            "fileInfo" => $fileInfo,
         ];
 
         return $data;
@@ -313,6 +315,6 @@ class Discord extends Base implements NotificationInterface
     protected function sendMessage($webhook, array $project, $eventName, array $eventData)
     {
         $payload = $this->getMessage($project, $eventName, $eventData);
-        DiscordSDK::SendWebhookMessage($webhook, $payload["options"], $payload["fileinfo"]);
+        DiscordSDK::SendWebhookMessage($webhook, $payload["options"], $payload["fileInfo"]);
     }
 }
