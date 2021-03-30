@@ -182,7 +182,7 @@ class Discord extends Base implements NotificationInterface
 
                 $avatar_file = array(
                     "name" => "file",
-                    "filename" => "avatar.png",
+                    "filename" => "avatar.{$avatar_fileType}",
                     "type" => $avatar_mime,
                     "data" => file_get_contents($avatar_path),
                 );
