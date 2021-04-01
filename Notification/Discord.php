@@ -230,7 +230,7 @@ class Discord extends Base implements NotificationInterface
 
             $attachment_file = array(
                 "name" => "file2",
-                "filename" => $eventData['file']['name'],
+                "filename" => clean($eventData['file']['name']),
                 "type" => $file_mime,
                 "data" => file_get_contents($file_path),
             );
