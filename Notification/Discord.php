@@ -174,7 +174,7 @@ class Discord extends Base implements NotificationInterface
             $user = $this->userSession->getAll();
             $author = $this->helper->user->getFullname();
             $title = $this->notificationModel->getTitleWithAuthor($author, $eventName, $eventData);
-            if (isset($user['avatar_path'])) {
+            if (!empty($user['avatar_path'])) {
                 $avatar_path = getcwd() . '/data/files/' . $user['avatar_path'];
 
                 $avatar_mime = mime_content_type($avatar_path);
@@ -193,9 +193,17 @@ class Discord extends Base implements NotificationInterface
         }
 
         $task_name = '**' . $eventData['task']['title'] . '**';
-        $title = "📝" . str_replace('the task', $task_name, $title);
+        $task_url = $this->helper->url->to('TaskViewController', 'show', array('task_id' => $eventData['task']['id'], 'project_id' => $project['id']), '', true);
 
-        $message = str_replace($task_name, '[' . $task_name . '](' . $this->helper->url->to('TaskViewController', 'show', array('task_id' => $eventData['task']['id'], 'project_id' => $project['id']), '', true) . ')', $title);
+        $title = "📝" . $title;
+
+        $task_name = str_replace(
+            $task_name,
+            '[' . $task_name . '](' . $task_url . ')',
+            $task_name
+        );
+
+        $message = $task_name . "\n " . $title;
 
         $description_events = array(TaskModel::EVENT_CREATE, TaskModel::EVENT_UPDATE, TaskModel::EVENT_USER_MENTION);
         $subtask_events = array(SubtaskModel::EVENT_CREATE, SubtaskModel::EVENT_UPDATE, SubtaskModel::EVENT_DELETE);
